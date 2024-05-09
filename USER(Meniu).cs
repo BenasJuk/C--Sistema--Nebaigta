@@ -190,20 +190,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox2.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis; 
 
-                // Get user input for quantity using a message box
+                
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox2.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox2.Checked = false; 
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+                
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -213,8 +213,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                       
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 2);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -222,12 +222,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox2.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox2.Checked = false;
                                 return;
                             }
                         }
@@ -235,7 +235,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox2.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox2.Checked = false;
                         return;
                     }
                     finally
@@ -244,10 +244,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+               
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+              
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -259,11 +259,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 2); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 2); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 2); 
+                        command.Parameters.AddWithValue("@MaistoID", 2); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 2);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox2.Checked);
 
                         command.ExecuteNonQuery();
@@ -272,7 +272,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox2.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox2.Checked = false; 
                     }
                     finally
                     {
@@ -280,9 +280,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else 
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+                
                 int orderID = 2;
 
                 if (orderID > 0)
@@ -295,12 +295,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                            
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!"); 
                         }
                         catch (Exception ex)
                         {
@@ -319,20 +319,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox3.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis; 
 
-                // Get user input for quantity using a message box
+               
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox3.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox3.Checked = false; 
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+                
+                decimal kainaVienetas = 0;
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -342,8 +342,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                        
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 3);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -351,12 +351,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox3.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox3.Checked = false; 
                                 return;
                             }
                         }
@@ -364,7 +364,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox3.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox3.Checked = false; 
                         return;
                     }
                     finally
@@ -373,10 +373,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+               
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+                
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -388,11 +388,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 3); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 3); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 3); 
+                        command.Parameters.AddWithValue("@MaistoID", 3); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 3);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox3.Checked);
 
                         command.ExecuteNonQuery();
@@ -401,7 +401,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox3.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox3.Checked = false; 
                     }
                     finally
                     {
@@ -409,9 +409,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+                
                 int orderID = 3;
 
                 if (orderID > 0)
@@ -424,12 +424,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                            
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!"); 
                         }
                         catch (Exception ex)
                         {
@@ -448,20 +448,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox4.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis;
 
-                // Get user input for quantity using a message box
+                
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox4.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox4.Checked = false;
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+              
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -471,8 +471,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                       
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 4);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -480,12 +480,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox4.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox4.Checked = false;
                                 return;
                             }
                         }
@@ -493,7 +493,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox4.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox4.Checked = false; 
                         return;
                     }
                     finally
@@ -502,10 +502,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+                
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+              
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -517,11 +517,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 4); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 4); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 4); 
+                        command.Parameters.AddWithValue("@MaistoID", 4); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 4);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox4.Checked);
 
                         command.ExecuteNonQuery();
@@ -530,7 +530,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox4.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox4.Checked = false; 
                     }
                     finally
                     {
@@ -538,9 +538,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else 
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+              
                 int orderID = 4;
 
                 if (orderID > 0)
@@ -553,12 +553,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                           
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!");
                         }
                         catch (Exception ex)
                         {
@@ -577,20 +577,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox5.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis;
 
-                // Get user input for quantity using a message box
+              
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox5.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox5.Checked = false; 
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+               
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -600,8 +600,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                       
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 5);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -609,12 +609,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox5.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox5.Checked = false; 
                                 return;
                             }
                         }
@@ -622,7 +622,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox5.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox5.Checked = false; 
                         return;
                     }
                     finally
@@ -631,10 +631,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+                
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+                
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -646,11 +646,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 5); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 5); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 5); 
+                        command.Parameters.AddWithValue("@MaistoID", 5);
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 5);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox5.Checked);
 
                         command.ExecuteNonQuery();
@@ -659,7 +659,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox5.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox5.Checked = false; 
                     }
                     finally
                     {
@@ -667,9 +667,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else 
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+                
                 int orderID = 5;
 
                 if (orderID > 0)
@@ -682,12 +682,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                            
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!"); 
                         }
                         catch (Exception ex)
                         {
@@ -706,20 +706,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox6.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis; 
 
-                // Get user input for quantity using a message box
+             
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox6.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox6.Checked = false;
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+               
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -729,8 +729,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                      
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID";
                         command.Parameters.AddWithValue("@MaistoID", 6);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -738,12 +738,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox6.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox6.Checked = false; 
                                 return;
                             }
                         }
@@ -751,7 +751,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox6.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox6.Checked = false;
                         return;
                     }
                     finally
@@ -760,10 +760,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+                
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+                
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -775,11 +775,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 6); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 6); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 6); 
+                        command.Parameters.AddWithValue("@MaistoID", 6); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 4);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox6.Checked);
 
                         command.ExecuteNonQuery();
@@ -788,7 +788,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox6.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox6.Checked = false;
                     }
                     finally
                     {
@@ -796,9 +796,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else 
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+               
                 int orderID = 6;
 
                 if (orderID > 0)
@@ -811,12 +811,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                            
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!"); 
                         }
                         catch (Exception ex)
                         {
@@ -835,20 +835,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox7.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis; 
 
-                // Get user input for quantity using a message box
+               
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox7.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox7.Checked = false;
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+               
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -858,8 +858,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                        
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 7);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -867,12 +867,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox7.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox7.Checked = false; 
                                 return;
                             }
                         }
@@ -880,7 +880,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox7.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox7.Checked = false; 
                         return;
                     }
                     finally
@@ -889,10 +889,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+               
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+               
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -904,11 +904,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 7); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 7); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 7); 
+                        command.Parameters.AddWithValue("@MaistoID", 7); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 6);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox7.Checked);
 
                         command.ExecuteNonQuery();
@@ -917,7 +917,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox7.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox7.Checked = false; 
                     }
                     finally
                     {
@@ -925,9 +925,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else 
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+                
                 int orderID = 7;
 
                 if (orderID > 0)
@@ -940,12 +940,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                           
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!"); 
                         }
                         catch (Exception ex)
                         {
@@ -964,20 +964,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox8.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis; 
 
-                // Get user input for quantity using a message box
+               
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox8.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox8.Checked = false; 
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+                
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -987,8 +987,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                       
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 8);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -996,12 +996,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox8.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox8.Checked = false; 
                                 return;
                             }
                         }
@@ -1009,7 +1009,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox8.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox8.Checked = false;
                         return;
                     }
                     finally
@@ -1018,10 +1018,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+                
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+                
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -1033,11 +1033,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 8); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 8); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 8); 
+                        command.Parameters.AddWithValue("@MaistoID", 8); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 7);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox8.Checked);
 
                         command.ExecuteNonQuery();
@@ -1046,7 +1046,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox8.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox8.Checked = false; 
                     }
                     finally
                     {
@@ -1054,9 +1054,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else 
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+                
                 int orderID = 8;
 
                 if (orderID > 0)
@@ -1069,12 +1069,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                            
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!"); 
                         }
                         catch (Exception ex)
                         {
@@ -1093,20 +1093,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox9.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis; 
 
-                // Get user input for quantity using a message box
+                
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox9.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox9.Checked = false; 
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+               
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -1116,8 +1116,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                        
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 9);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -1125,12 +1125,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox9.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox9.Checked = false; 
                                 return;
                             }
                         }
@@ -1138,7 +1138,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox9.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox9.Checked = false; 
                         return;
                     }
                     finally
@@ -1147,10 +1147,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+                
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+               
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -1162,11 +1162,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 9); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 9); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 9); 
+                        command.Parameters.AddWithValue("@MaistoID", 9); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 6);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox9.Checked);
 
                         command.ExecuteNonQuery();
@@ -1175,7 +1175,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox9.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox9.Checked = false;
                     }
                     finally
                     {
@@ -1183,9 +1183,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+                
                 int orderID = 9;
 
                 if (orderID > 0)
@@ -1198,12 +1198,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                            
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!"); 
                         }
                         catch (Exception ex)
                         {
@@ -1222,20 +1222,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox10.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis; 
 
-                // Get user input for quantity using a message box
+                
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox10.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox10.Checked = false; 
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+                
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -1245,8 +1245,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                       
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 10);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -1254,12 +1254,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString());
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox10.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox10.Checked = false; 
                                 return;
                             }
                         }
@@ -1267,7 +1267,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox10.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox10.Checked = false; 
                         return;
                     }
                     finally
@@ -1276,10 +1276,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+                
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+               
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -1291,11 +1291,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 10); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 10); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 10); 
+                        command.Parameters.AddWithValue("@MaistoID", 10); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 7);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina);
                         command.Parameters.AddWithValue("@IsChecked", checkBox10.Checked);
 
                         command.ExecuteNonQuery();
@@ -1304,7 +1304,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox10.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox10.Checked = false; 
                     }
                     finally
                     {
@@ -1312,9 +1312,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else 
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+                
                 int orderID = 10;
 
                 if (orderID > 0)
@@ -1327,12 +1327,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                            
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!"); 
                         }
                         catch (Exception ex)
                         {
@@ -1351,20 +1351,20 @@ namespace Maisto_uzsakymo_sistema
         {
             if (checkBox11.Checked)
             {
-                int kiekis; // Variable to store the user's quantity input
+                int kiekis; 
 
-                // Get user input for quantity using a message box
+              
                 string quantityInput = Microsoft.VisualBasic.Interaction.InputBox("Įveskite norimą kiekį:", "Kiekis");
 
                 if (!int.TryParse(quantityInput, out kiekis))
                 {
                     MessageBox.Show("Neteisingas kiekio formatas. Įveskite tik skaičius.");
-                    checkBox11.Checked = false; // Uncheck the checkbox if input is invalid
+                    checkBox11.Checked = false; 
                     return;
                 }
 
-                // Retrieve price per unit from database based on MaistoID (assuming you know it)
-                decimal kainaVienetas = 0; // Variable to store the price per unit
+               
+                decimal kainaVienetas = 0; 
 
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
@@ -1374,8 +1374,8 @@ namespace Maisto_uzsakymo_sistema
                         command = new MySqlCommand();
                         command.Connection = mySqlConnection;
 
-                        // Modify the query to retrieve GalutineKaina (price) for the specific MaistoID (replace with your logic to get MaistoID)
-                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; // Replace "Maistas" with your table name
+                        
+                        command.CommandText = "SELECT Kaina FROM Maistas WHERE ID = @MaistoID"; 
                         command.Parameters.AddWithValue("@MaistoID", 11);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -1383,12 +1383,12 @@ namespace Maisto_uzsakymo_sistema
                             if (reader.HasRows)
                             {
                                 reader.Read();
-                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); // Convert retrieved value to decimal
+                                kainaVienetas = decimal.Parse(reader["Kaina"].ToString()); 
                             }
                             else
                             {
                                 MessageBox.Show("Nepavyko gauti kainos iš duomenų bazės.");
-                                checkBox11.Checked = false; // Uncheck the checkbox if price retrieval fails
+                                checkBox11.Checked = false; 
                                 return;
                             }
                         }
@@ -1396,7 +1396,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox11.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox11.Checked = false; 
                         return;
                     }
                     finally
@@ -1405,10 +1405,10 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
 
-                // Calculate final price
+                
                 decimal galutineKaina = kiekis * kainaVienetas;
 
-                // Update the code to insert the GalutineKaina (final price) into the Uzsakymas table
+                
                 using (MySqlConnection mySqlConnection = new MySqlConnection(mysqlCon))
                 {
                     try
@@ -1420,11 +1420,11 @@ namespace Maisto_uzsakymo_sistema
                         command.CommandText = "INSERT INTO Uzsakymas (ID, MaistoID, PasirinktasPriedas, Kiekis, GalutineKaina, IsChecked)" +
                                                  " VALUES (@ID, @MaistoID, @PasirinktasPriedas, @Kiekis, @GalutineKaina, @IsChecked)";
 
-                        command.Parameters.AddWithValue("@ID", 11); // Replace with appropriate values if needed
-                        command.Parameters.AddWithValue("@MaistoID", 11); // Assuming you have MaistoID
+                        command.Parameters.AddWithValue("@ID", 11); 
+                        command.Parameters.AddWithValue("@MaistoID", 11); 
                         command.Parameters.AddWithValue("@PasirinktasPriedas", 7);
                         command.Parameters.AddWithValue("@Kiekis", kiekis);
-                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); // Use the calculated final price
+                        command.Parameters.AddWithValue("@GalutineKaina", galutineKaina); 
                         command.Parameters.AddWithValue("@IsChecked", checkBox11.Checked);
 
                         command.ExecuteNonQuery();
@@ -1433,7 +1433,7 @@ namespace Maisto_uzsakymo_sistema
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error: " + ex.Message);
-                        checkBox11.Checked = false; // Uncheck the checkbox if an error occurs
+                        checkBox11.Checked = false; 
                     }
                     finally
                     {
@@ -1441,9 +1441,9 @@ namespace Maisto_uzsakymo_sistema
                     }
                 }
             }
-            else // When checkbox is unchecked, remove the item from the order
+            else
             {
-                // Assuming you have an order ID or some way to identify the specific order for this checkbox
+                
                 int orderID = 11;
 
                 if (orderID > 0)
@@ -1456,12 +1456,12 @@ namespace Maisto_uzsakymo_sistema
                             command = new MySqlCommand();
                             command.Connection = mySqlConnection;
 
-                            // Modify the query to delete the order based on the order ID
+                           
                             command.CommandText = "DELETE FROM Uzsakymas WHERE ID = @OrderID";
                             command.Parameters.AddWithValue("@OrderID", orderID);
 
                             command.ExecuteNonQuery();
-                            MessageBox.Show("Užsakymas pašalintas!"); // Confirmation message for removal
+                            MessageBox.Show("Užsakymas pašalintas!");
                         }
                         catch (Exception ex)
                         {
